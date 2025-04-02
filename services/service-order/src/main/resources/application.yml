@@ -1,0 +1,39 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        namespace: ${spring.profiles.active:public}
+server:
+  port: 8000
+---
+spring:
+  config:
+    import:
+      - nacos:order-service.yaml?group=order
+      - nacos:common.yaml?group=order
+      - nacos:datasource.yaml?group=order
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    import:
+      - nacos:order-service.yaml?group=order
+      - nacos:common.yaml?group=order
+      - nacos:datasource.yaml?group=order
+    activate:
+      on-profile: test
+---
+spring:
+  config:
+    import:
+      - nacos:order-service.yaml?group=order
+      - nacos:common.yaml?group=order
+      - nacos:datasource.yaml?group=order
+    activate:
+      on-profile: prod
